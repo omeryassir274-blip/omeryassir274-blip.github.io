@@ -12,7 +12,7 @@ function render(){
  r.sort(s==="az"?(a,b)=>a.title.localeCompare(b.title,"ar"):(a,b)=>b.date.localeCompare(a.date));
  $("count").textContent=r.length+" عنصر";
  $("list").innerHTML=r.length?r.map(i=>'<button class="card" data-id="'+esc(i.id)+'">'+iconHtml(i,items.indexOf(i))+
-  '<div class="t"><b>'+esc(i.title)+'</b><span class="mut">'+esc(i.type)+' · '+esc(i.platform)+' · '+esc(i.size)+'</span></div><span class="get">تحميل</span></button>').join(""):
+  '<div class="t"><b>'+esc(i.title)+'</b><span class="mut">'+[i.type,i.platform,i.size].filter(Boolean).map(x=>"<bdi>"+esc(x)+"</bdi>").join(" · ")+'</span></div><span class="get">تحميل</span></button>').join(""):
   '<div class="empty">لا توجد نتائج. جرّب كلمة أخرى.</div>';
  paint($("list"));
 }
@@ -28,7 +28,7 @@ $("list").onclick=e=>{
  const i=items.find(x=>x.id===c.dataset.id);if(!i)return;
  $("dI").innerHTML=iconHtml(i,items.indexOf(i));paint($("dI"));
  $("dt").textContent=i.title;$("ds").textContent=i.type+(i.version?" · الإصدار "+i.version:"");$("dd").textContent=i.desc;
- $("dm").innerHTML=[["المنصة",i.platform],["الحجم",i.size],["التاريخ",i.date],["الوسوم",i.tags.join("، ")]].filter(x=>x[1]).map(x=>"<span>"+x[0]+"</span><span>"+esc(x[1])+"</span>").join("");
+ $("dm").innerHTML=[["المنصة",i.platform],["الحجم",i.size],["التاريخ",i.date],["الوسوم",i.tags.join("، ")]].filter(x=>x[1]).map(x=>"<span>"+x[0]+"</span><span><bdi>"+esc(x[1])+"</bdi></span>").join("");
  const a=[],u=C.safeUrl(i.url),d=C.safeUrl(i.demo),r=C.safeUrl(i.repo);
  if(u)a.push('<a class="btn main" href="'+esc(u)+'" download rel="noopener">تحميل مباشر</a>');
  if(d)a.push('<a class="btn" href="'+esc(d)+'" target="_blank" rel="noopener noreferrer">تجربة</a>');
