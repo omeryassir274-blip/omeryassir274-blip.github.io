@@ -3,24 +3,130 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OM</title>
-<link rel="stylesheet" href="style.css">
+<title>مكتبة التحميل المباشر</title>
+<meta name="description" content="تحميل مباشر للأفلام والبرامج والكتب والملفات">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f1f4f3;--sf:#fff;--ink:#12292c;--mut:#5d7275;--ln:#d5dedd;--ac:#0f766e;--acx:#fff;--wm:#c2410c}
+:root[data-theme=dark]{--bg:#0e1b1d;--sf:#16282b;--ink:#e6f0ef;--mut:#93aaad;--ln:#27403f;--ac:#2dd4bf;--acx:#06201d;--wm:#fb923c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,Arial,sans-serif;line-height:1.7}
+.w{max-width:1040px;margin:auto;padding:0 20px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font-weight:800;font-size:20px}
+button,select,input{font:inherit;color:var(--ink)}
+.btn{padding:9px 16px;border:1px solid var(--ln);border-radius:10px;background:var(--sf);cursor:pointer}
+.btn[aria-pressed=true]{background:var(--ac);color:var(--acx);border-color:var(--ac)}
+.hero{padding:30px 0 18px}
+h1{font-size:clamp(28px,6vw,46px);font-weight:800;margin:0 0 6px}
+.hero p{margin:0 0 18px;color:var(--mut)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+input[type=search],select{padding:12px 14px;border:1px solid var(--ln);border-radius:10px;background:var(--sf)}
+input[type=search]{flex:1 1 260px}
+.stats{color:var(--mut);font-size:14px;margin:6px 0 14px}
+#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;padding-bottom:20px}
+#list.rows{grid-template-columns:1fr}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:12px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;text-align:right;padding:0}
+.rows .card{flex-direction:row;align-items:center}
+.cover{aspect-ratio:2/3;background:linear-gradient(135deg,var(--ac),var(--wm));display:grid;place-items:center;font-size:48px;font-weight:800;color:#fff;background-size:cover;background-position:center}
+.rows .cover{width:64px;aspect-ratio:1;font-size:26px;flex:none}
+.info{padding:10px 12px}
+.info b{display:block;font-size:15px}
+.mut{color:var(--mut);font-size:13px}
+.more{display:block;margin:0 auto 40px}
+dialog{border:1px solid var(--ln);border-radius:14px;background:var(--sf);color:var(--ink);max-width:480px;width:92%;padding:22px}
+dialog::backdrop{background:rgba(0,0,0,.55)}
+dialog h2{margin:0 0 6px}
+.tbl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:14px 0;font-size:14px}
+.tbl span:nth-child(odd){color:var(--mut)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.dl{flex:1;text-align:center;text-decoration:none;padding:11px;border-radius:10px;background:var(--ac);color:var(--acx);font-weight:600}
+.empty{grid-column:1/-1;text-align:center;color:var(--mut);padding:40px 0}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:0 20px 40px}
+:focus-visible{outline:3px solid var(--wm);outline-offset:2px}
+</style>
 </head>
 <body>
-<header class="hero">
-  <div class="logo" id="logo">OM</div>
-  <h1 id="name"></h1>
-  <p id="tagline"></p>
-  <nav><a href="#files">الملفات</a><a href="#videos">الفيديوهات</a><a href="#projects">المشاريع</a><a href="#links">الروابط</a></nav>
-</header>
-<main>
-  <section id="files"><h2>الملفات</h2><div id="filesBox"></div></section>
-  <section id="videos"><h2>الفيديوهات</h2><div id="videosBox" class="vgrid"></div></section>
-  <section id="projects"><h2>المشاريع</h2><div id="projBox"></div></section>
-  <section id="links"><h2>الروابط</h2><div id="linkBox"></div></section>
-</main>
-<footer id="foot"></footer>
-<script src="data.js"></script>
-<script src="script.js"></script>
+<div class="w">
+  <div class="top"><span class="logo">مكتبة التحميل</span><button class="btn" id="theme">الوضع الداكن</button></div>
+  <section class="hero">
+    <h1>حمّل ما تحتاجه مباشرة</h1>
+    <p>أفلام، مسلسلات، برامج، كتب وملفات في مكان واحد.</p>
+    <div class="row">
+      <input type="search" id="q" placeholder="ابحث بالاسم أو الوسم" aria-label="بحث">
+      <select id="sort" aria-label="ترتيب">
+        <option value="new">الأحدث</option><option value="pop">الأكثر تحميلاً</option>
+        <option value="big">الأكبر حجماً</option><option value="az">أبجدياً</option>
+      </select>
+      <button class="btn" id="view" aria-pressed="false">عرض قائمة</button>
+    </div>
+    <div class="row" id="cats"></div>
+  </section>
+  <div class="stats" id="stats"></div>
+  <main id="list"></main>
+  <button class="btn more" id="more">عرض المزيد</button>
+</div>
+<footer>الملفات المعروضة مملوكة لصاحب الموقع أو مرخّصة للنشر.</footer>
+
+<dialog id="dlg">
+  <h2 id="dt"></h2><div class="mut" id="dd"></div>
+  <div class="tbl" id="dm"></div>
+  <div class="acts">
+    <a class="dl" id="dl" download>تحميل مباشر</a>
+    <button class="btn" id="share">نسخ الرابط</button>
+    <button class="btn" id="close">إغلاق</button>
+  </div>
+</dialog>
+
+<script>
+/* ===== عدّل القائمة فقط =====
+ cat: أفلام | مسلسلات | برامج | كتب | ملفات
+ sizeMB: الحجم بالميغابايت | cover: رابط صورة الغلاف (اختياري) | date: YYYY-MM-DD
+*/
+const ITEMS=[
+ {id:1,title:"اسم الفيلم الأول",cat:"أفلام",sizeMB:700,fmt:"MP4",date:"2026-11-01",desc:"وصف مختصر للفيلم.",tags:["دراما"],url:"files/film1.mp4",cover:""},
+ {id:2,title:"اسم الفيلم الثاني",cat:"أفلام",sizeMB:1200,fmt:"MKV",date:"2026-10-20",desc:"وصف مختصر للفيلم.",tags:["أكشن"],url:"https://example.com/film2.mkv",cover:""},
+ {id:3,title:"برنامج مفيد",cat:"برامج",sizeMB:85,fmt:"EXE",date:"2026-09-05",desc:"وصف البرنامج ومتطلباته.",tags:["أدوات"],url:"files/app.exe",cover:""},
+ {id:4,title:"دليل الاستخدام",cat:"كتب",sizeMB:3,fmt:"PDF",date:"2026-08-12",desc:"كتاب إلكتروني.",tags:["تعليم"],url:"files/guide.pdf",cover:""},
+ {id:5,title:"حزمة الملفات",cat:"ملفات",sizeMB:45,fmt:"ZIP",date:"2026-07-30",desc:"مجموعة ملفات مضغوطة.",tags:["حزمة"],url:"files/pack.zip",cover:""}
+];
+const CATS=["الكل","أفلام","مسلسلات","برامج","كتب","ملفات"],PAGE=12;
+const $=s=>document.getElementById(s);
+let cat="الكل",shown=PAGE,cur=null,counts={};
+try{counts=JSON.parse(localStorage.getItem("dlc")||"{}")}catch(e){}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const size=m=>m>=1024?(m/1024).toFixed(1)+" GB":m+" MB";
+const pop=i=>counts[i.id]||0;
+
+$("cats").innerHTML=CATS.map(c=>`<button class="btn" data-c="${c}" aria-pressed="${c==="الكل"}">${c}</button>`).join("");
+$("cats").onclick=e=>{const b=e.target.closest("button");if(!b)return;cat=b.dataset.c;shown=PAGE;
+ document.querySelectorAll("#cats button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()};
+
+function render(){
+ const t=$("q").value.trim().toLowerCase(),s=$("sort").value;
+ let r=ITEMS.filter(i=>(cat==="الكل"||i.cat===cat)&&(i.title+" "+i.tags.join(" ")).toLowerCase().includes(t));
+ r.sort({new:(a,b)=>b.date.localeCompare(a.date),pop:(a,b)=>pop(b)-pop(a),big:(a,b)=>b.sizeMB-a.sizeMB,az:(a,b)=>a.title.localeCompare(b.title,"ar")}[s]);
+ $("stats").textContent=r.length+" نتيجة";
+ $("list").innerHTML=r.length?r.slice(0,shown).map(i=>`<button class="card" data-id="${i.id}">
+  <div class="cover" ${i.cover?`style="background-image:url('${esc(i.cover)}')"`:""}>${i.cover?"":esc(i.title[0])}</div>
+  <div class="info"><b>${esc(i.title)}</b><span class="mut">${i.cat} · ${size(i.sizeMB)}</span></div></button>`).join(""):'<div class="empty">لا توجد نتائج. جرّب كلمة أخرى أو قسماً آخر.</div>';
+ $("more").hidden=r.length<=shown;
+}
+$("q").oninput=()=>{shown=PAGE;render()};$("sort").onchange=render;
+$("more").onclick=()=>{shown+=PAGE;render()};
+$("view").onclick=e=>{const on=$("list").classList.toggle("rows");e.target.setAttribute("aria-pressed",on);e.target.textContent=on?"عرض شبكة":"عرض قائمة"};
+$("list").onclick=e=>{const c=e.target.closest(".card");if(!c)return;cur=ITEMS.find(i=>i.id==c.dataset.id);
+ $("dt").textContent=cur.title;$("dd").textContent=cur.desc;
+ $("dm").innerHTML=[["القسم",cur.cat],["الصيغة",cur.fmt],["الحجم",size(cur.sizeMB)],["التاريخ",cur.date],["التحميلات",pop(cur)]].map(([a,b])=>`<span>${a}</span><span>${esc(b)}</span>`).join("");
+ $("dl").href=cur.url;$("dlg").showModal()};
+$("dl").onclick=()=>{counts[cur.id]=pop(cur)+1;try{localStorage.setItem("dlc",JSON.stringify(counts))}catch(e){}};
+$("close").onclick=()=>$("dlg").close();
+$("share").onclick=async()=>{const u=new URL(cur.url,location.href).href;
+ try{await navigator.clipboard.writeText(u);$("share").textContent="تم النسخ"}catch(e){prompt("انسخ الرابط",u)}
+ setTimeout(()=>$("share").textContent="نسخ الرابط",1500)};
+$("theme").onclick=()=>{const d=document.documentElement.dataset.theme!=="dark";document.documentElement.dataset.theme=d?"dark":"light";$("theme").textContent=d?"الوضع الفاتح":"الوضع الداكن"};
+if(matchMedia("(prefers-color-scheme:dark)").matches)$("theme").click();
+render();
+</script>
 </body>
 </html>
