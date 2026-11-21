@@ -4,8 +4,11 @@ if(top!==self){document.documentElement.textContent="";return}
 const C=window.Core,$=id=>document.getElementById(id),esc=C.esc;
 // غيّر هذه القيم فقط إذا تغيّر اسم المستودع
 const CFG={owner:"omeryassir274-blip",repo:"omeryassir274-blip.github.io",file:"data.json"};
+// وضع الاختبار: الرمز 0000 يفتح لوحة تجريبية في الذاكرة فقط ولا يكتب في المستودع.
+// قبل النشر النهائي غيّر TEST_MODE إلى false.
+const TEST_MODE=true,TEST_PIN="0000";
 const KT="adm_t",KL="adm_l",IDLE=600000,MAXF=5,LOCK=300000;
-let gh=null,items=[],sha="",edit=-1,timer=null,busy=false;
+let gh=null,items=[],sha="",edit=-1,timer=null,busy=false,demo=false;
 const say=(id,t,show)=>{$(id).textContent=t||"";$(id).hidden=!t};
 const lk=()=>{try{return JSON.parse(localStorage.getItem(KL)||"{}")}catch(e){return{}}};
 const setlk=o=>{try{localStorage.setItem(KL,JSON.stringify(o))}catch(e){}};
@@ -13,15 +16,22 @@ const setlk=o=>{try{localStorage.setItem(KL,JSON.stringify(o))}catch(e){}};
 function reset(){clearTimeout(timer);timer=setTimeout(()=>logout("انتهت الجلسة لعدم النشاط"),IDLE)}
 ["click","keydown"].forEach(ev=>document.addEventListener(ev,()=>{if(gh)reset()}));
 function logout(m){
- gh=null;items=[];sha="";clearTimeout(timer);
+ gh=null;demo=false;items=[];sha="";clearTimeout(timer);$("tmode").hidden=true;
  try{sessionStorage.removeItem(KT)}catch(e){}
  $("tok").value="";$("app").hidden=true;$("f").hidden=true;$("out").hidden=true;$("login").hidden=false;say("lm",m||"");
 }
-async function enter(tok){
- const g=C.GH(tok,(u,o)=>fetch(u,o),CFG);
+function demoGH(){let store=null,n=1;return{
+ async verify(){return{login:"تجريبي",branch:"demo"}},
+ async read(){if(!store){const r=await fetch("data.json",{cache:"no-store"});store=r.ok?await r.json():[]}return{sha:"d"+n,items:JSON.parse(JSON.stringify(store))}},
+ async write(it){const l=it.map(C.clean);if(l.some(x=>!x))throw new Error("يوجد عنصر غير صالح");store=l;n++;return"d"+n}
+}}
+async function enter(tok,isDemo){
+ demo=!!isDemo;
+ const g=demo?demoGH():C.GH(tok,(u,o)=>fetch(u,o),CFG);
  const v=await g.verify();
- gh=g;try{sessionStorage.setItem(KT,tok)}catch(e){}
- $("who").textContent="مسجّل: "+v.login;
+ gh=g;if(!demo){try{sessionStorage.setItem(KT,tok)}catch(e){}}
+ $("tmode").hidden=!demo;
+ $("who").textContent=demo?"الوضع التجريبي":"مسجّل: "+v.login;
  await reload();
  $("login").hidden=true;$("app").hidden=false;$("out").hidden=false;reset();
 }
@@ -32,7 +42,7 @@ function list(){
 }
 async function commit(next,msg){
  if(busy)return;busy=true;say("am","جارٍ الحفظ...");
- try{sha=await gh.write(next,sha,msg);items=next.map(C.clean).filter(Boolean);list();say("am","تم الحفظ. يظهر التغيير في الموقع خلال دقيقة تقريباً.");return true}
+ try{sha=await gh.write(next,sha,msg);items=next.map(C.clean).filter(Boolean);list();say("am",demo?"تم الحفظ تجريبياً في الذاكرة فقط. لم يتغيّر الموقع.":"تم الحفظ. يظهر التغيير في الموقع خلال دقيقة تقريباً.");return true}
  catch(e){say("am",e.message);if(e.status===409||e.status===422)await reload();return false}
  finally{busy=false}
 }
@@ -40,7 +50,7 @@ $("lf").onsubmit=async e=>{
  e.preventDefault();const l=lk();
  if(l.until&&Date.now()<l.until){say("lm","محاولات كثيرة. انتظر بضع دقائق.");return}
  $("lb").disabled=true;say("lm","");
- try{await enter($("tok").value.trim());setlk({})}
+ try{{const t=$("tok").value.trim();await enter(t,TEST_MODE&&t===TEST_PIN)}setlk({})}
  catch(err){const f=(l.n||0)+1;setlk(f>=MAXF?{n:0,until:Date.now()+LOCK}:{n:f});say("lm",err.message);gh=null}
  finally{$("lb").disabled=false;$("tok").value=""}
 };

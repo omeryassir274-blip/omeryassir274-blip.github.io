@@ -95,7 +95,7 @@ await t("الموقع العام خالٍ من أي كود تعديل أو ات�
  assert.ok(!/api\.github\.com|\bPUT\b|Authorization|sessionStorage|\btoken\b/i.test(pub));
  assert.match(rd("index.html"),/connect-src 'self'/)});
 await t("صفحة الإدارة تسمح بالاتصال بـ GitHub فقط وغير مفهرسة",()=>{
- const a=rd("admin.html");assert.match(a,/connect-src https:\/\/api\.github\.com/);assert.match(a,/noindex/)});
+ const a=rd("admin.html");assert.match(a,/connect-src 'self' https:\/\/api\.github\.com/);assert.match(a,/noindex/)});
 await t("الرمز يُخزَّن في sessionStorage وليس localStorage",()=>{
  const a=rd("admin.js");assert.match(a,/sessionStorage\.setItem\(KT/);assert.ok(!/localStorage\.setItem\(KT/.test(a))});
 await t("data.json صالح وكل عناصره تجتاز الفحص",()=>{

@@ -164,6 +164,23 @@ with sync_playwright() as p:
     ck("الخروج التلقائي بعد 10 دقائق من عدم النشاط",pg.locator("#login").is_visible() and "انتهت الجلسة" in pg.inner_text("#lm"),pg.inner_text("#lm"))
     c.close()
 
+
+    # ====== الوضع التجريبي (الرمز 0000) ======
+    gh=Gh();c,pg,lg=newadmin(gh)
+    pg.fill("#tok","1234");pg.click("#lb");pg.locator("#lm:not([hidden])").wait_for()
+    ck("الوضع التجريبي: رمز 1234 مرفوض",not pg.locator("#app").is_visible())
+    pg.fill("#tok","0000");pg.click("#lb");pg.wait_for_selector("#app:not([hidden])")
+    ck("الوضع التجريبي: 0000 يفتح اللوحة مع شريط تنبيه",pg.locator("#tmode").is_visible() and pg.locator(".row").count()==3)
+    pg.click("#new");pg.fill("#title","عنصر تجريبي");pg.click("#save");pg.locator("#am",has_text="تجريبياً").wait_for()
+    ck("الوضع التجريبي: الإضافة تظهر في القائمة",pg.locator(".row b",has_text="عنصر تجريبي").count()==1 and pg.locator(".row").count()==4)
+    pg.once("dialog",lambda d:d.accept());pg.locator(".row").first.locator("button[data-a=d]").click();expect(pg.locator(".row")).to_have_count(3)
+    ck("الوضع التجريبي: لا اتصال بـ GitHub ولا أي PUT",len(gh.puts)==0 and len(gh.hosts)==0,(gh.puts,gh.hosts))
+    ck("الوضع التجريبي: لا يُخزَّن الرمز",not pg.evaluate("!!sessionStorage.getItem('adm_t')") and not pg.evaluate("Object.values(localStorage).some(v=>v.includes('0000'))"))
+    pg.reload();ck("الوضع التجريبي: إعادة التحميل تعيد شاشة الدخول",pg.locator("#login").is_visible() and not pg.locator("#app").is_visible())
+    pg.request.get(BASE+"/data.json");real=json.loads(open("/mnt/user-data/outputs/data.json",encoding="utf8").read())
+    ck("الوضع التجريبي: data.json الحقيقي لم يتغيّر",len(real)==3 and all(x["title"]!="عنصر تجريبي" for x in real))
+    c.close()
+
     # زائر يحاول الوصول مباشرة لعمل PUT بدون رمز عبر الكونسول
     gh=Gh();c=br.new_context();c.route("https://api.github.com/**",gh.handler);pg=c.new_page();pg.goto(BASE+"/index.html")
     r=pg.evaluate("""async()=>{try{const r=await fetch('https://api.github.com/repos/x/y/contents/data.json',{method:'PUT',body:'{}'});return r.status}catch(e){return 'blocked'}}""")

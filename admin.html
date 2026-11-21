@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https: data:; connect-src https://api.github.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https: data:; connect-src 'self' https://api.github.com; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex,nofollow">
 <title>لوحة الإدارة</title>
@@ -26,6 +26,7 @@
  <section id="app" hidden>
   <div class="panel">
    <b id="who"></b> <span class="mut">يُسجَّل الخروج تلقائياً بعد 10 دقائق من عدم النشاط.</span>
+   <div class="msg err" id="tmode" hidden>وضع تجريبي: التعديلات تبقى في الذاكرة فقط ولا تُحفظ في الموقع. تختفي عند إعادة تحميل الصفحة.</div>
    <div class="msg" id="am" hidden></div>
    <div id="rows"></div>
    <p><button class="btn main" id="new">إضافة عنصر جديد</button></p>
