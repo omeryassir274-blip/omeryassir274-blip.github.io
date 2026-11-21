@@ -1,0 +1,5 @@
+[
+ {"id":"app-1","type":"برنامج","title":"اسم البرنامج الأول","desc":"وصف قصير يشرح ما يفعله البرنامج وما يحتاجه المستخدم.","version":"1.0.0","size":"85 MB","platform":"Windows","date":"2026-11-10","tags":["أدوات"],"url":"files/app1.exe","repo":"","demo":"","icon":""},
+ {"id":"app-2","type":"برنامج","title":"اسم البرنامج الثاني","desc":"برنامج يعمل على أكثر من نظام.","version":"2.3.1","size":"120 MB","platform":"Android","date":"2026-10-02","tags":["إنتاجية"],"url":"files/app2.apk","repo":"","demo":"","icon":""},
+ {"id":"proj-1","type":"مشروع","title":"اسم المشروع الأول","desc":"مشروع مفتوح المصدر مع كود كامل وشرح للتشغيل.","version":"0.9","size":"4 MB","platform":"ويب","date":"2026-09-18","tags":["JavaScript","ويب"],"url":"files/project1.zip","repo":"https://github.com/omeryassir274-blip","demo":"","icon":""}
+]

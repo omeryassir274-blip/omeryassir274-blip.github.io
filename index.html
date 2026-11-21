@@ -3,130 +3,171 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>مكتبة التحميل المباشر</title>
-<meta name="description" content="تحميل مباشر للأفلام والبرامج والكتب والملفات">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<title>البرامج والمشاريع</title>
+<meta name="description" content="تحميل برامج ومشاريع مباشرة">
 <style>
-:root{--bg:#f1f4f3;--sf:#fff;--ink:#12292c;--mut:#5d7275;--ln:#d5dedd;--ac:#0f766e;--acx:#fff;--wm:#c2410c}
-:root[data-theme=dark]{--bg:#0e1b1d;--sf:#16282b;--ink:#e6f0ef;--mut:#93aaad;--ln:#27403f;--ac:#2dd4bf;--acx:#06201d;--wm:#fb923c}
+:root{--bg:#f5f5f7;--sf:#fff;--ink:#1d1d1f;--mut:#6e6e73;--ln:rgba(0,0,0,.1);--ac:#0071e3;--nav:rgba(255,255,255,.72);--seg:#e8e8ed}
+:root[data-theme=dark]{--bg:#000;--sf:#1d1d1f;--ink:#f5f5f7;--mut:#a1a1a6;--ln:rgba(255,255,255,.14);--ac:#2997ff;--nav:rgba(22,22,23,.72);--seg:#2c2c2e}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,Arial,sans-serif;line-height:1.7}
-.w{max-width:1040px;margin:auto;padding:0 20px}
-.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
-.logo{font-weight:800;font-size:20px}
-button,select,input{font:inherit;color:var(--ink)}
-.btn{padding:9px 16px;border:1px solid var(--ln);border-radius:10px;background:var(--sf);cursor:pointer}
-.btn[aria-pressed=true]{background:var(--ac);color:var(--acx);border-color:var(--ac)}
-.hero{padding:30px 0 18px}
-h1{font-size:clamp(28px,6vw,46px);font-weight:800;margin:0 0 6px}
-.hero p{margin:0 0 18px;color:var(--mut)}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
-input[type=search],select{padding:12px 14px;border:1px solid var(--ln);border-radius:10px;background:var(--sf)}
-input[type=search]{flex:1 1 260px}
-.stats{color:var(--mut);font-size:14px;margin:6px 0 14px}
-#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;padding-bottom:20px}
-#list.rows{grid-template-columns:1fr}
-.card{background:var(--sf);border:1px solid var(--ln);border-radius:12px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;text-align:right;padding:0}
-.rows .card{flex-direction:row;align-items:center}
-.cover{aspect-ratio:2/3;background:linear-gradient(135deg,var(--ac),var(--wm));display:grid;place-items:center;font-size:48px;font-weight:800;color:#fff;background-size:cover;background-position:center}
-.rows .cover{width:64px;aspect-ratio:1;font-size:26px;flex:none}
-.info{padding:10px 12px}
-.info b{display:block;font-size:15px}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.6;
+ font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Arabic","Segoe UI",Tahoma,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:5;background:var(--nav);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--ln)}
+.w{max-width:1024px;margin:auto;padding:0 22px}
+nav .w{display:flex;justify-content:space-between;align-items:center;height:48px}
+.brand{font-weight:600;font-size:17px}
+.pill{border:0;background:transparent;color:var(--ac);font:inherit;font-size:14px;cursor:pointer;padding:6px 10px;border-radius:99px}
+.pill:hover{background:var(--seg)}
+.hero{text-align:center;padding:72px 0 36px}
+h1{font-size:clamp(34px,7vw,64px);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0 0 12px}
+.hero p{font-size:clamp(17px,2.6vw,24px);color:var(--mut);margin:0 auto;max-width:34ch}
+.bar{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:center;margin:30px 0 8px}
+.seg{display:inline-flex;background:var(--seg);border-radius:10px;padding:2px}
+.seg button{border:0;background:transparent;color:var(--ink);font:inherit;font-size:14px;padding:6px 18px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--sf);box-shadow:0 1px 4px rgba(0,0,0,.18);font-weight:600}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:11px 14px;width:100%}
+.bar input{width:min(100%,320px);border-radius:99px;text-align:center}
+.bar select{width:auto;border-radius:99px}
+.count{text-align:center;color:var(--mut);font-size:14px;margin:6px 0 24px}
+#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding-bottom:56px}
+.card{background:var(--sf);border-radius:22px;padding:20px;display:flex;gap:16px;align-items:center;cursor:pointer;border:0;text-align:right;color:inherit;font:inherit;width:100%;transition:transform .2s}
+.card:hover{transform:scale(1.02)}
+.icon{width:64px;height:64px;border-radius:22%;flex:none;display:grid;place-items:center;color:#fff;font-size:28px;font-weight:700;background-size:cover;background-position:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.card .t{flex:1;min-width:0}
+.card b{display:block;font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mut{color:var(--mut);font-size:13px}
-.more{display:block;margin:0 auto 40px}
-dialog{border:1px solid var(--ln);border-radius:14px;background:var(--sf);color:var(--ink);max-width:480px;width:92%;padding:22px}
-dialog::backdrop{background:rgba(0,0,0,.55)}
-dialog h2{margin:0 0 6px}
-.tbl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:14px 0;font-size:14px}
+.get{background:var(--seg);color:var(--ac);border-radius:99px;padding:5px 18px;font-weight:600;font-size:14px}
+.empty{grid-column:1/-1;text-align:center;color:var(--mut);padding:50px 0}
+dialog{border:0;border-radius:24px;background:var(--sf);color:var(--ink);width:min(92%,460px);padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(0,0,0,.45);backdrop-filter:blur(6px)}
+.head{display:flex;gap:16px;align-items:center;margin-bottom:12px}
+.head h2{margin:0;font-size:24px;font-weight:700}
+.tbl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:14px;margin:16px 0;padding:14px 0;border-block:1px solid var(--ln)}
 .tbl span:nth-child(odd){color:var(--mut)}
 .acts{display:flex;gap:8px;flex-wrap:wrap}
-.dl{flex:1;text-align:center;text-decoration:none;padding:11px;border-radius:10px;background:var(--ac);color:var(--acx);font-weight:600}
-.empty{grid-column:1/-1;text-align:center;color:var(--mut);padding:40px 0}
-footer{text-align:center;color:var(--mut);font-size:13px;padding:0 20px 40px}
-:focus-visible{outline:3px solid var(--wm);outline-offset:2px}
+.btn{flex:1;text-align:center;text-decoration:none;border:0;cursor:pointer;font:inherit;font-weight:600;padding:12px 18px;border-radius:99px;background:var(--seg);color:var(--ac)}
+.btn.main{background:var(--ac);color:#fff}
+.btn:hover{filter:brightness(1.08)}
+#admin{display:none;padding-bottom:60px}
+#admin.on{display:block}
+#admin form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));background:var(--sf);border-radius:22px;padding:22px}
+#admin .full{grid-column:1/-1}
+label{font-size:13px;color:var(--mut);display:block;margin-bottom:4px}
+pre{direction:ltr;text-align:left;background:var(--sf);border-radius:16px;padding:16px;overflow:auto;font-size:13px;white-space:pre-wrap;word-break:break-all}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:0 20px 44px}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
 </style>
 </head>
 <body>
+<nav><div class="w"><span class="brand">البرامج والمشاريع</span><button class="pill" id="theme">الوضع الداكن</button></div></nav>
+
 <div class="w">
-  <div class="top"><span class="logo">مكتبة التحميل</span><button class="btn" id="theme">الوضع الداكن</button></div>
-  <section class="hero">
-    <h1>حمّل ما تحتاجه مباشرة</h1>
-    <p>أفلام، مسلسلات، برامج، كتب وملفات في مكان واحد.</p>
-    <div class="row">
-      <input type="search" id="q" placeholder="ابحث بالاسم أو الوسم" aria-label="بحث">
-      <select id="sort" aria-label="ترتيب">
-        <option value="new">الأحدث</option><option value="pop">الأكثر تحميلاً</option>
-        <option value="big">الأكبر حجماً</option><option value="az">أبجدياً</option>
-      </select>
-      <button class="btn" id="view" aria-pressed="false">عرض قائمة</button>
-    </div>
-    <div class="row" id="cats"></div>
-  </section>
-  <div class="stats" id="stats"></div>
+ <section id="store">
+  <div class="hero"><h1>برامج ومشاريع.<br>بتحميل مباشر.</h1><p>اختر ما تحتاجه وحمّله بضغطة واحدة.</p></div>
+  <div class="bar">
+   <div class="seg" id="seg">
+    <button data-c="الكل" aria-pressed="true">الكل</button><button data-c="برنامج" aria-pressed="false">برامج</button><button data-c="مشروع" aria-pressed="false">مشاريع</button>
+   </div>
+   <input type="search" id="q" placeholder="بحث" aria-label="بحث">
+   <select id="sort" aria-label="ترتيب"><option value="new">الأحدث</option><option value="az">أبجدياً</option></select>
+  </div>
+  <div class="count" id="count"></div>
   <main id="list"></main>
-  <button class="btn more" id="more">عرض المزيد</button>
+ </section>
+
+ <section id="admin">
+  <div class="hero" style="padding-bottom:20px"><h1 style="font-size:40px">إضافة محتوى</h1><p>املأ الحقول، انسخ الناتج وألصقه في data.json.</p></div>
+  <form id="f">
+   <div><label>النوع</label><select name="type"><option>برنامج</option><option>مشروع</option></select></div>
+   <div><label>الاسم</label><input name="title" required></div>
+   <div class="full"><label>الوصف</label><textarea name="desc" rows="2"></textarea></div>
+   <div><label>الإصدار</label><input name="version" placeholder="1.0.0"></div>
+   <div><label>الحجم</label><input name="size" placeholder="50 MB"></div>
+   <div><label>المنصة</label><input name="platform" placeholder="Windows / Android / ويب"></div>
+   <div><label>الوسوم (افصل بفاصلة)</label><input name="tags"></div>
+   <div><label>رابط التحميل</label><input name="url" dir="ltr"></div>
+   <div><label>رابط المستودع</label><input name="repo" dir="ltr"></div>
+   <div><label>رابط التجربة</label><input name="demo" dir="ltr"></div>
+   <div><label>رابط الأيقونة</label><input name="icon" dir="ltr"></div>
+   <div class="full acts"><button class="btn main" type="submit">إنشاء الكود</button><button class="btn" type="button" id="preview">معاينة هنا فقط</button><button class="btn" type="button" id="back">رجوع للموقع</button></div>
+  </form>
+  <p class="mut">الصق السطر الناتج داخل القوسين [ ] في data.json وافصل بين العناصر بفاصلة، ثم احفظ في GitHub.</p>
+  <pre id="out" hidden></pre><button class="btn main" id="copy" hidden>نسخ</button>
+ </section>
 </div>
-<footer>الملفات المعروضة مملوكة لصاحب الموقع أو مرخّصة للنشر.</footer>
+<footer>الملفات المعروضة مملوكة لصاحب الموقع أو مرخّصة للنشر. <button class="pill" id="adm">إضافة محتوى</button></footer>
 
 <dialog id="dlg">
-  <h2 id="dt"></h2><div class="mut" id="dd"></div>
-  <div class="tbl" id="dm"></div>
-  <div class="acts">
-    <a class="dl" id="dl" download>تحميل مباشر</a>
-    <button class="btn" id="share">نسخ الرابط</button>
-    <button class="btn" id="close">إغلاق</button>
-  </div>
+ <div class="head"><div class="icon" id="di"></div><div><h2 id="dt"></h2><div class="mut" id="ds"></div></div></div>
+ <div id="dd"></div><div class="tbl" id="dm"></div>
+ <div class="acts" id="da"></div>
 </dialog>
 
 <script>
-/* ===== عدّل القائمة فقط =====
- cat: أفلام | مسلسلات | برامج | كتب | ملفات
- sizeMB: الحجم بالميغابايت | cover: رابط صورة الغلاف (اختياري) | date: YYYY-MM-DD
-*/
-const ITEMS=[
- {id:1,title:"اسم الفيلم الأول",cat:"أفلام",sizeMB:700,fmt:"MP4",date:"2026-11-01",desc:"وصف مختصر للفيلم.",tags:["دراما"],url:"files/film1.mp4",cover:""},
- {id:2,title:"اسم الفيلم الثاني",cat:"أفلام",sizeMB:1200,fmt:"MKV",date:"2026-10-20",desc:"وصف مختصر للفيلم.",tags:["أكشن"],url:"https://example.com/film2.mkv",cover:""},
- {id:3,title:"برنامج مفيد",cat:"برامج",sizeMB:85,fmt:"EXE",date:"2026-09-05",desc:"وصف البرنامج ومتطلباته.",tags:["أدوات"],url:"files/app.exe",cover:""},
- {id:4,title:"دليل الاستخدام",cat:"كتب",sizeMB:3,fmt:"PDF",date:"2026-08-12",desc:"كتاب إلكتروني.",tags:["تعليم"],url:"files/guide.pdf",cover:""},
- {id:5,title:"حزمة الملفات",cat:"ملفات",sizeMB:45,fmt:"ZIP",date:"2026-07-30",desc:"مجموعة ملفات مضغوطة.",tags:["حزمة"],url:"files/pack.zip",cover:""}
-];
-const CATS=["الكل","أفلام","مسلسلات","برامج","كتب","ملفات"],PAGE=12;
+const FALLBACK=[{id:"app-1",type:"برنامج",title:"اسم البرنامج الأول",desc:"وصف قصير.",version:"1.0.0",size:"85 MB",platform:"Windows",date:"2026-11-10",tags:["أدوات"],url:"files/app1.exe",repo:"",demo:"",icon:""}];
 const $=s=>document.getElementById(s);
-let cat="الكل",shown=PAGE,cur=null,counts={};
-try{counts=JSON.parse(localStorage.getItem("dlc")||"{}")}catch(e){}
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const size=m=>m>=1024?(m/1024).toFixed(1)+" GB":m+" MB";
-const pop=i=>counts[i.id]||0;
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safe=u=>{u=String(u||"").trim();return /^(https?:\/\/|[\w.\-\/]+$)/i.test(u)?u:""};
+const GRAD=["#0a84ff,#5e5ce6","#ff9f0a,#ff375f","#30d158,#0a84ff","#bf5af2,#ff375f","#64d2ff,#5e5ce6"];
+let items=[],cat="الكل";
 
-$("cats").innerHTML=CATS.map(c=>`<button class="btn" data-c="${c}" aria-pressed="${c==="الكل"}">${c}</button>`).join("");
-$("cats").onclick=e=>{const b=e.target.closest("button");if(!b)return;cat=b.dataset.c;shown=PAGE;
- document.querySelectorAll("#cats button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()};
-
+async function load(){
+ try{const r=await fetch("data.json",{cache:"no-store"});if(!r.ok)throw 0;items=await r.json()}
+ catch(e){items=FALLBACK}
+ render();
+}
+function icon(i,n){
+ const u=safe(i.icon);
+ return u?`<div class="icon" style="background-image:url('${esc(u)}')"></div>`:
+ `<div class="icon" style="background:linear-gradient(135deg,${GRAD[n%GRAD.length]})">${esc((i.title||"?")[0])}</div>`;
+}
 function render(){
  const t=$("q").value.trim().toLowerCase(),s=$("sort").value;
- let r=ITEMS.filter(i=>(cat==="الكل"||i.cat===cat)&&(i.title+" "+i.tags.join(" ")).toLowerCase().includes(t));
- r.sort({new:(a,b)=>b.date.localeCompare(a.date),pop:(a,b)=>pop(b)-pop(a),big:(a,b)=>b.sizeMB-a.sizeMB,az:(a,b)=>a.title.localeCompare(b.title,"ar")}[s]);
- $("stats").textContent=r.length+" نتيجة";
- $("list").innerHTML=r.length?r.slice(0,shown).map(i=>`<button class="card" data-id="${i.id}">
-  <div class="cover" ${i.cover?`style="background-image:url('${esc(i.cover)}')"`:""}>${i.cover?"":esc(i.title[0])}</div>
-  <div class="info"><b>${esc(i.title)}</b><span class="mut">${i.cat} · ${size(i.sizeMB)}</span></div></button>`).join(""):'<div class="empty">لا توجد نتائج. جرّب كلمة أخرى أو قسماً آخر.</div>';
- $("more").hidden=r.length<=shown;
+ const r=items.filter(i=>(cat==="الكل"||i.type===cat)&&((i.title||"")+" "+(i.tags||[]).join(" ")+" "+(i.platform||"")).toLowerCase().includes(t));
+ r.sort(s==="az"?(a,b)=>a.title.localeCompare(b.title,"ar"):(a,b)=>(b.date||"").localeCompare(a.date||""));
+ $("count").textContent=r.length+" عنصر";
+ $("list").innerHTML=r.length?r.map(i=>`<button class="card" data-id="${esc(i.id)}">${icon(i,items.indexOf(i))}
+  <div class="t"><b>${esc(i.title)}</b><span class="mut">${esc(i.type)} · ${esc(i.platform)} · ${esc(i.size)}</span></div><span class="get">تحميل</span></button>`).join(""):
+  '<div class="empty">لا توجد نتائج. جرّب كلمة أخرى.</div>';
 }
-$("q").oninput=()=>{shown=PAGE;render()};$("sort").onchange=render;
-$("more").onclick=()=>{shown+=PAGE;render()};
-$("view").onclick=e=>{const on=$("list").classList.toggle("rows");e.target.setAttribute("aria-pressed",on);e.target.textContent=on?"عرض شبكة":"عرض قائمة"};
-$("list").onclick=e=>{const c=e.target.closest(".card");if(!c)return;cur=ITEMS.find(i=>i.id==c.dataset.id);
- $("dt").textContent=cur.title;$("dd").textContent=cur.desc;
- $("dm").innerHTML=[["القسم",cur.cat],["الصيغة",cur.fmt],["الحجم",size(cur.sizeMB)],["التاريخ",cur.date],["التحميلات",pop(cur)]].map(([a,b])=>`<span>${a}</span><span>${esc(b)}</span>`).join("");
- $("dl").href=cur.url;$("dlg").showModal()};
-$("dl").onclick=()=>{counts[cur.id]=pop(cur)+1;try{localStorage.setItem("dlc",JSON.stringify(counts))}catch(e){}};
-$("close").onclick=()=>$("dlg").close();
-$("share").onclick=async()=>{const u=new URL(cur.url,location.href).href;
- try{await navigator.clipboard.writeText(u);$("share").textContent="تم النسخ"}catch(e){prompt("انسخ الرابط",u)}
- setTimeout(()=>$("share").textContent="نسخ الرابط",1500)};
+$("seg").onclick=e=>{const b=e.target.closest("button");if(!b)return;cat=b.dataset.c;
+ document.querySelectorAll("#seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()};
+$("q").oninput=render;$("sort").onchange=render;
+
+$("list").onclick=e=>{
+ const c=e.target.closest(".card");if(!c)return;
+ const i=items.find(x=>x.id===c.dataset.id);if(!i)return;
+ $("di").outerHTML=icon(i,items.indexOf(i)).replace('class="icon"','class="icon" id="di"');
+ $("dt").textContent=i.title;$("ds").textContent=i.type+(i.version?" · الإصدار "+i.version:"");
+ $("dd").textContent=i.desc||"";
+ $("dm").innerHTML=[["المنصة",i.platform],["الحجم",i.size],["التاريخ",i.date],["الوسوم",(i.tags||[]).join("، ")]].filter(x=>x[1]).map(([a,b])=>`<span>${a}</span><span>${esc(b)}</span>`).join("");
+ const a=[];
+ if(safe(i.url))a.push(`<a class="btn main" href="${esc(safe(i.url))}" download>تحميل مباشر</a>`);
+ if(safe(i.demo))a.push(`<a class="btn" href="${esc(safe(i.demo))}" target="_blank" rel="noopener">تجربة</a>`);
+ if(safe(i.repo))a.push(`<a class="btn" href="${esc(safe(i.repo))}" target="_blank" rel="noopener">الكود المصدري</a>`);
+ a.push('<button class="btn" id="x">إغلاق</button>');
+ $("da").innerHTML=a.join("");$("x").onclick=()=>$("dlg").close();
+ $("dlg").showModal();
+};
+$("dlg").addEventListener("click",e=>{if(e.target===$("dlg"))$("dlg").close()});
+
+/* إضافة محتوى */
+function show(admin){$("admin").classList.toggle("on",admin);$("store").style.display=admin?"none":"block";scrollTo(0,0)}
+$("adm").onclick=()=>show(true);$("back").onclick=()=>show(false);
+function build(){
+ const d=Object.fromEntries(new FormData($("f")));
+ return {id:"item-"+Date.now(),type:d.type,title:d.title,desc:d.desc,version:d.version,size:d.size,platform:d.platform,
+  date:new Date().toISOString().slice(0,10),tags:(d.tags||"").split(",").map(x=>x.trim()).filter(Boolean),
+  url:d.url,repo:d.repo,demo:d.demo,icon:d.icon};
+}
+$("f").onsubmit=e=>{e.preventDefault();$("out").textContent=JSON.stringify(build(),null,1);$("out").hidden=false;$("copy").hidden=false};
+$("preview").onclick=()=>{if(!$("f").reportValidity())return;items.unshift(build());render();show(false)};
+$("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("out").textContent);$("copy").textContent="تم النسخ"}catch(e){}setTimeout(()=>$("copy").textContent="نسخ",1500)};
+
 $("theme").onclick=()=>{const d=document.documentElement.dataset.theme!=="dark";document.documentElement.dataset.theme=d?"dark":"light";$("theme").textContent=d?"الوضع الفاتح":"الوضع الداكن"};
 if(matchMedia("(prefers-color-scheme:dark)").matches)$("theme").click();
-render();
+load();
 </script>
 </body>
 </html>
