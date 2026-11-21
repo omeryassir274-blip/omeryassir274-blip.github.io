@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https: data:; connect-src https://api.github.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
+<title>لوحة الإدارة</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><div class="w"><span class="brand">لوحة الإدارة</span><button class="pill" id="out" hidden>تسجيل الخروج</button></div></nav>
+<div class="w">
+ <section id="login" class="panel login">
+  <h1>دخول المدير</h1>
+  <p class="mut">أدخل رمز GitHub الشخصي (Fine-grained) الخاص بالمستودع. يُحفظ في هذه التبويبة فقط ويُحذف عند الإغلاق.</p>
+  <form id="lf" autocomplete="off">
+   <label for="tok">رمز الدخول</label>
+   <input id="tok" type="password" autocomplete="off" spellcheck="false" required>
+   <div class="msg err" id="lm" hidden></div>
+   <p><button class="btn main" id="lb" type="submit">دخول</button></p>
+  </form>
+ </section>
+
+ <section id="app" hidden>
+  <div class="panel">
+   <b id="who"></b> <span class="mut">يُسجَّل الخروج تلقائياً بعد 10 دقائق من عدم النشاط.</span>
+   <div class="msg" id="am" hidden></div>
+   <div id="rows"></div>
+   <p><button class="btn main" id="new">إضافة عنصر جديد</button></p>
+  </div>
+  <form id="f" class="panel" hidden>
+   <div class="fgrid">
+    <div><label for="type">النوع</label><select id="type"><option>برنامج</option><option>مشروع</option></select></div>
+    <div><label for="title">الاسم</label><input id="title" maxlength="80" required></div>
+    <div class="full"><label for="desc">الوصف</label><textarea id="desc" rows="2" maxlength="500"></textarea></div>
+    <div><label for="version">الإصدار</label><input id="version" maxlength="20"></div>
+    <div><label for="size">الحجم</label><input id="size" maxlength="20" placeholder="50 MB"></div>
+    <div><label for="platform">المنصة</label><input id="platform" maxlength="40"></div>
+    <div><label for="tags">الوسوم (افصل بفاصلة)</label><input id="tags"></div>
+    <div><label for="url">رابط التحميل</label><input id="url" dir="ltr"></div>
+    <div><label for="repo">رابط المستودع</label><input id="repo" dir="ltr"></div>
+    <div><label for="demo">رابط التجربة</label><input id="demo" dir="ltr"></div>
+    <div><label for="icon">رابط الأيقونة</label><input id="icon" dir="ltr"></div>
+   </div>
+   <div class="msg err" id="fm" hidden></div>
+   <div class="acts"><button class="btn main" id="save" type="submit">حفظ ونشر</button><button class="btn" id="cancel" type="button">إلغاء</button></div>
+  </form>
+ </section>
+</div>
+<script src="core.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
